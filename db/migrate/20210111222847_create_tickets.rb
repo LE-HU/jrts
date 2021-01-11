@@ -3,7 +3,7 @@ class CreateTickets < ActiveRecord::Migration[6.1]
     create_table :tickets do |t|
       t.references :event, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
-      t.boolean :paid
+      t.boolean :paid, null: false, default: false
 
       t.timestamps
     end
