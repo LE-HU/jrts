@@ -13,6 +13,7 @@ group :development, :test do
   gem 'rubocop-performance', '~> 1.9', '>= 1.9.2'
   gem 'rubocop-rails', '~> 2.9', '>= 2.9.1'
   gem 'rubocop-rspec', '~> 2.1'
+  gem 'rspec-rails', '~> 4.0', '>= 4.0.2'
 end
 
 group :development do
