@@ -5,7 +5,11 @@ class User < ApplicationRecord
   has_many :paid_tickets, -> { paid }, class_name: 'Ticket'
   has_many :events, through: :tickets
 
-  def buy_ticket; end
+  # Complement devise:validatable with additional validation.
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
+  validates :email, presence: true, length: { maximum: 255 },
+                    format: { with: VALID_EMAIL_REGEX },
+                    uniqueness: { case_sensitive: false }
 
   def owned_tickets
     user_tickets = []
