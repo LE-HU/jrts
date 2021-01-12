@@ -18,7 +18,7 @@ module Api
         event = Event.new(event_params)
 
         if event.save
-          render json: event, status: :created, location: event
+          render json: event, status: :created, location: api_v1_events_url
         else
           render json: event.errors, status: :unprocessable_entity
         end

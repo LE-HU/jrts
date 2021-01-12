@@ -18,7 +18,7 @@ module Api
         # Stub current user before authentication is set up.
         current_user = User.all.sample
 
-        ticket = event.tickets.build(event_id: params[:event_id])
+        ticket = event.tickets.build
         ticket[:user_id] = current_user.id
 
         # Stub payment service response
@@ -37,7 +37,8 @@ module Api
         else
           ticket.paid = true
           if ticket.save
-            render json: ticket, status: :created, location: event_tickets_url
+            render json: ticket, status: :created,
+                   location: api_v1_event_tickets_url
           else
             render json: ticket.errors, status: :unprocessable_entity
           end
