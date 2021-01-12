@@ -22,11 +22,23 @@ class TicketsController < ApplicationController
     # Stub payment service response
     payment_response = %i[card_error payment_error success].sample
 
-    if ticket.save && charge_payment(payment_response)
-      ticket.paid = true
-      render json: ticket, status: :created, location: event_tickets_url
+    begin
+      charge_payment(payment_response)
+    rescue Payment::Gateway::CardError
+      render json: {
+        "error": 'card error'
+      }, status: :unprocessable_entity
+    rescue Payment::Gateway::PaymentError
+      render json: {
+        "error": 'payment error'
+      }, status: :unprocessable_entity
     else
-      render json: ticket.errors, status: :unprocessable_entity
+      ticket.paid = true
+      if ticket.save
+        render json: ticket, status: :created, location: event_tickets_url
+      else
+        render json: ticket.errors, status: :unprocessable_entity
+      end
     end
   end
 
