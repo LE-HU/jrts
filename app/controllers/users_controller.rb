@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: user
+    render json: user.owned_tickets
   end
 
   def update
@@ -31,7 +31,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    # params.fetch(:user, {})
     params.require(:user).permit(:email)
   end
 end

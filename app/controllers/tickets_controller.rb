@@ -13,22 +13,18 @@ class TicketsController < ApplicationController
   end
 
   def create
-    # Temporarily stub current user
+    # Stub current user before authentication is set up.
     current_user = User.all.sample
 
-    ticket = event.tickets.build(ticket_params)
+    ticket = event.tickets.build(event_id: params[:event_id])
     ticket[:user_id] = current_user.id
 
-    if ticket.save
-      render json: ticket, status: :created, location: event_tickets_url
-    else
-      render json: ticket.errors, status: :unprocessable_entity
-    end
-  end
+    # Stub payment service response
+    payment_response = %i[card_error payment_error success].sample
 
-  def update
-    if ticket.update(ticket_params)
-      render json: ticket
+    if ticket.save && charge_payment(payment_response)
+      ticket.paid = true
+      render json: ticket, status: :created, location: event_tickets_url
     else
       render json: ticket.errors, status: :unprocessable_entity
     end
@@ -49,7 +45,8 @@ class TicketsController < ApplicationController
     @ticket ||= event.tickets.find(params[:id])
   end
 
-  def ticket_params
-    params.require(:ticket).permit(:paid)
+  def charge_payment(response_status)
+    Payment::Gateway.charge(amount: event.ticket_price,
+                            token: response_status)
   end
 end
