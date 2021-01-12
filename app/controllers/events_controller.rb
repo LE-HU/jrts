@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :update, :destroy]
+  # Devise authentication is to be turned on once the front-end is ready.
+  # before_action :authenticate_user!
 
   def index
     @events = Event.all
@@ -8,37 +9,39 @@ class EventsController < ApplicationController
   end
 
   def show
-    render json: @event
+    render json: event
   end
 
   def create
-    @event = Event.new(event_params)
+    event = Event.new(event_params)
 
-    if @event.save
-      render json: @event, status: :created, location: @event
+    if event.save
+      render json: event, status: :created, location: event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: event.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    if @event.update(event_params)
-      render json: @event
+    if event.update(event_params)
+      render json: event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: event.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @event.destroy
+    event.destroy
+    render json: event
   end
 
   private
-    def set_event
-      @event = Event.find(params[:id])
-    end
 
-    def event_params
-      params.require(:event).permit(:name, :description, :event_time, :guest_limit, :tickets_count, :ticket_price)
-    end
+  def event
+    @event ||= Event.find(params[:id])
+  end
+
+  def event_params
+    params.require(:event).permit(:name, :description, :event_time, :guest_limit, :tickets_count, :ticket_price)
+  end
 end

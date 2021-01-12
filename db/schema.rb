@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 2021_01_11_222847) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.bigint "event_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "event_id"
+    t.bigint "user_id"
     t.boolean "paid", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
