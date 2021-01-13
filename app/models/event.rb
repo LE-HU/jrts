@@ -5,9 +5,11 @@ class Event < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 80 }
   validates :description, length: { maximum: 3000 }
-  validates :guest_limit, presence: true, numericality: { only_integer: true,
-                                                          greater_than: 0 }
-  validates :ticket_price, presence: true, numericality: { only_integer: true }
+  validates :guest_limit, presence: true,
+                          numericality: { only_integer: true,
+                                          greater_than: 0 }
+  validates :ticket_price, presence: true,
+                           numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate :event_happens_in_the_future
 
   def detailed_info
