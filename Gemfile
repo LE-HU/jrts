@@ -9,10 +9,12 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.1'
 
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails', '~> 6.1'
   gem 'faker', '~> 2.15', '>= 2.15.1'
+  gem 'rspec_api_documentation', '~> 6.1'
   gem 'rspec-rails', '~> 4.0', '>= 4.0.2'
   gem 'rubocop-performance', '~> 1.9', '>= 1.9.2'
   gem 'rubocop-rails', '~> 2.9', '>= 2.9.1'
