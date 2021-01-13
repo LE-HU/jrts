@@ -1,30 +1,34 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe TicketsController, type: :routing do
-  describe "routing" do
-    it "routes to #index" do
-      expect(get: "/tickets").to route_to("tickets#index")
+RSpec.describe Api::V1::TicketsController, type: :routing do
+  describe 'routing' do
+    let(:user) { FactoryBot.create :user }
+    let(:event) { FactoryBot.create :event }
+    let(:ticket) do
+      FactoryBot.create :ticket, user_id: user.id,
+                                 event_id: event.id
     end
 
-    it "routes to #show" do
-      expect(get: "/tickets/1").to route_to("tickets#show", id: "1")
+    it 'routes to #index' do
+      expect(get: "api/v1/events/#{event.id}/tickets")
+        .to route_to('api/v1/tickets#index', event_id: event.id.to_s)
     end
 
-
-    it "routes to #create" do
-      expect(post: "/tickets").to route_to("tickets#create")
+    it 'routes to #show' do
+      expect(get: "api/v1/events/#{event.id}/tickets/#{ticket.id}")
+        .to route_to('api/v1/tickets#show',
+                     event_id: event.id.to_s, id: ticket.id.to_s)
     end
 
-    it "routes to #update via PUT" do
-      expect(put: "/tickets/1").to route_to("tickets#update", id: "1")
+    it 'routes to #create' do
+      expect(post: "api/v1/events/#{event.id}/tickets/")
+        .to route_to('api/v1/tickets#create', event_id: event.id.to_s)
     end
 
-    it "routes to #update via PATCH" do
-      expect(patch: "/tickets/1").to route_to("tickets#update", id: "1")
-    end
-
-    it "routes to #destroy" do
-      expect(delete: "/tickets/1").to route_to("tickets#destroy", id: "1")
+    it 'routes to #destroy' do
+      expect(delete: "api/v1/events/#{event.id}/tickets/#{ticket.id}")
+        .to route_to('api/v1/tickets#destroy',
+                     event_id: event.id.to_s, id: ticket.id.to_s)
     end
   end
 end
