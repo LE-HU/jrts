@@ -11,7 +11,7 @@ module Api
       end
 
       def show
-        render json: ticket
+        render json: ticket.detailed_info
       end
 
       def create
