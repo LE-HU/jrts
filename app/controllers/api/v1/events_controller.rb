@@ -11,7 +11,7 @@ module Api
       end
 
       def show
-        render json: event
+        render json: event.detailed_info
       end
 
       def create
