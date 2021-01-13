@@ -44,7 +44,7 @@ module Api
       end
 
       def event_params
-        params.require(:event).permit(:name, :description, :event_time, :guest_limit, :tickets_count, :ticket_price)
+        params.require(:event).permit(:name, :description, :event_time, :guest_limit, :ticket_price)
       end
     end
   end
