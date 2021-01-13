@@ -17,12 +17,14 @@ module Api
       def create
         # Stub current user before authentication is set up.
         current_user = User.all.sample
-
-        ticket = event.tickets.build
-        ticket[:user_id] = current_user.id
+        current_user = params[:current_user] if Rails.env.test?
 
         # Stub payment service response
         payment_response = %i[card_error payment_error success].sample
+        payment_response = params[:payment_response] if Rails.env.test?
+
+        ticket = event.tickets.build
+        ticket[:user_id] = current_user[:id]
 
         begin
           charge_payment(payment_response)
