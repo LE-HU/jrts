@@ -79,6 +79,8 @@ Events/Tickets tests up and running.
 
 Acceptance tests serve the sole purpose of documentation generation.
 
+Manual API calls tested alongside development using Insomnia client.
+
 ### Ticket dependent: :destroy
 
 Current deletion of an Event / User leads into chain destroy action on associated Tickets.
